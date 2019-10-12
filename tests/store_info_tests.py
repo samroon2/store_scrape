@@ -1,8 +1,9 @@
-import unittest
-import json
 import base64
+import json
+import os
+import re
 import sys
-import os.path
+import unittest
 sys.path.append('../store_scrape/store_data')
 from appstore_info import *
 

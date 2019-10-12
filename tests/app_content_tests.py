@@ -1,9 +1,9 @@
-import unittest
-import json
 import base64
+import json
+import os
 import re
 import sys
-import os
+import unittest
 sys.path.append('../store_scrape/store_data')
 from appstore_content import *
 
@@ -20,6 +20,8 @@ class BasicTests(unittest.TestCase):
 ###############
 
     def test_get_raw(self):
+        ''' Test for getting raw json for a give app.
+        '''
         health_app = GetAppContent()
         apd = health_app.get_raw_app_json(appid)
         assert len(apd) != 0
