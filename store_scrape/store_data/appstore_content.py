@@ -28,13 +28,22 @@ class GetAppContent:
 
     def get_images(self, picurl: str, dirr: str, indexx: int):
         '''Method for downloading app images.
+
+        :param picurl: url of image to download.
+        :type picurl: str
+        :param dirr: directory to store image.
+        :type dirr: str
+        :param indexx: index of image (used for naming)
+        :type indexx: int
         '''
+        os.makedirs (dirr) if not os.path.isdir(dirr) else False
         fn = dirr + '/' + str(f'{indexx}_') + picurl.split("/")[-1]
         r = requests.get(picurl, stream=True)
         f = open(fn, 'wb')
         for chunk in r.iter_content(chunk_size=512 * 1024):
             if chunk:
                 f.write(chunk)
+        f.close()
 
     def get_all_apps(self):
         '''Works through the alpha list, gets pages/letter and retrieves app info.
