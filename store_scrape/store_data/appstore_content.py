@@ -71,9 +71,7 @@ class GetAppContent:
         if not os.path.exists(f'./{category}'):
             os.makedirs(f'./{category}')
         for app in selectedtitles:
-            print(selectedtitles.index(app))
             appid = app.split('id')[-1].split('?')[0]
-            print(appid)
             appjson = self.get_app_json(appid)
             with open(f'./{category}/{str(appid)}.json', "w") as outfile:
                 json.dump(appjson, outfile)
@@ -94,7 +92,6 @@ class GetAppContent:
             os.makedirs(f'./{str(appid)}/ipadScreenshot')
             os.makedirs(f'./{str(appid)}/artwork')
             appjson = self.get_raw_app_json(appid)
-            print(appjson)
             [self.get_images(x, f'./{str(appid)}/screenshots', n) for n, x in enumerate(appjson['results'][0]['screenshotUrls'])]
             [self.get_images(x, f'./{str(appid)}/ipadScreenshot', n) for n, x in enumerate(appjson['results'][0]['ipadScreenshotUrls'])]
             self.get_images(appjson['results'][0]['artworkUrl512'], f'./{str(appid)}/artwork', 0)
@@ -116,13 +113,13 @@ class GetAppContent:
             data['lookup_url'] = "https://itunes.apple.com/lookup?id={}".format(appid)
             data['app_id'] = data['results']['trackId']
             data['app_name'] = data['results']['trackName']
-            data['app_summary'] = str(self.textsummary(data['results']['description'].replace(">","")))
+            data['app_summary'] = str(self.text_summary(data['results']['description'].replace(">","")))
             #self.storejson(data)
             return data
         except Exception as e:
-            print(e, "failed on: ",)
+            print(f"failed on: {e}")
 
-    def textsummary(self, text: str):
+    def text_summary(self, text: str):
         '''Method to provide a 2 sentence summary of the app description.
 
         :param text: Body of text describing app.

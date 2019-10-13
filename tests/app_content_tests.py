@@ -41,7 +41,7 @@ class BasicTests(unittest.TestCase):
         img = apd['results'][0]['screenshotUrls'][0]
         health_app.get_images(img, './img', 1)
         assert len(os.listdir('./img')) != 0
-        shutil.rmtree(f"./img")
+        shutil.rmtree("./img")
 
     def test_get_sel_json(self):
         health_app = GetAppContent()
@@ -60,6 +60,13 @@ class BasicTests(unittest.TestCase):
         assert len(os.listdir(f"./{appid}")) != 0
         assert len(os.listdir(f"./{appid}/")) != 0
         shutil.rmtree(f"./{appid}")
+
+    def test_summary(self):
+        health_app = GetAppContent()
+        apd = health_app.get_raw_app_json(appid)
+        desc = apd['results'][0]['description']
+        summary = health_app.text_summary(desc)
+        assert len(summary) < len(desc)
 
 if __name__ == "__main__":
     unittest.main()
