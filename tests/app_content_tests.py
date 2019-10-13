@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import re
+import shutil
 import sys
 import unittest
 sys.path.append('../store_scrape/store_data')
@@ -28,14 +29,19 @@ class BasicTests(unittest.TestCase):
         assert 'results' in apd.keys()
         assert 'description' in apd['results'][0].keys()
 
+    def test_get_app_json(self):
+        health_app = GetAppContent()
+        apd = health_app.get_app_json(appid)
+        assert len(apd) != 0
+        assert 'results' in apd.keys()
+
     def test_get_images(self):
         health_app = GetAppContent()
         apd = health_app.get_raw_app_json(appid)
         img = apd['results'][0]['screenshotUrls'][0]
         health_app.get_images(img, './img', 1)
         assert len(os.listdir('./img')) != 0
-        [os.remove(f"./img/{x}") for x in os.listdir(f"./img")]
-        os.rmdir("./img")
+        shutil.rmtree(f"./img")
 
     def test_get_sel_json(self):
         health_app = GetAppContent()
@@ -45,9 +51,15 @@ class BasicTests(unittest.TestCase):
         assert len(apd) != 0
         assert 'app_summary' in apd.keys()
         assert 'description' in apd['results'].keys()
-        [os.remove(f"./{category}/{x}") for x in os.listdir(f"./{category}")]
-        os.rmdir(f"./{category}")
+        shutil.rmtree(f"./{category}")
 
+    def test_get_img_json(self):
+        health_app = GetAppContent()
+        health_app.get_images_json([app])
+        assert appid in os.listdir('.')
+        assert len(os.listdir(f"./{appid}")) != 0
+        assert len(os.listdir(f"./{appid}/")) != 0
+        shutil.rmtree(f"./{appid}")
 
 if __name__ == "__main__":
     unittest.main()
