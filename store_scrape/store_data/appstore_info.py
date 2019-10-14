@@ -16,6 +16,7 @@ class GetStoreInfo:
         self.popular_titles = []
         self.alpha = []
         self.pages = []
+        self.genres = {}
         self.all_pages = {}
 
     def get_popular_apps(self):
@@ -26,6 +27,17 @@ class GetStoreInfo:
         noStarchSoup = bs.BeautifulSoup(res.text, 'lxml')
         for url in noStarchSoup.find_all('div', {'class': 'grid3-column'}):
             [self.popular_titles.append(ul.get('href')) for ul in url.find_all('a')]
+
+    def get_genres(self):
+        '''Method to retreive the genres of the app store.
+        '''
+        res = requests.get(self.urlstart, headers=self.headers)
+        res.raise_for_status()
+        noStarchSoup = bs.BeautifulSoup(res.text, 'lxml')
+        for d in noStarchSoup.find_all('div', {'id': 'genre-nav' }):
+            for ul in d.find_all('ul', {'class': 'list column first'}):
+                for genre in ul.find_all('a'):
+                    self.genres[genre.getText()] = genre.get('href')
 
     def get_alpha_lists(self):
         '''Scrapes the alphabet list present on the page and populates the alpha list.
@@ -58,4 +70,4 @@ class GetStoreInfo:
                 res.raise_for_status()
                 noStarchSoup = bs.BeautifulSoup(res.text, 'lxml')
                 for url in noStarchSoup.find_all('div', {'class': 'grid3-column'}):
-                    [self.all_pages[letter[-1]].append(ul.get('href')) for ul in url.find_all('a')]         
+                    [self.all_pages[letter[-1]].append(ul.get('href')) for ul in url.find_all('a')]

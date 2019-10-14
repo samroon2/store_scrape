@@ -5,8 +5,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
 
 from store_data.appstore_info import GetStoreInfo
 from store_data.appstore_content import GetAppContent
+from store_data.store_codes import CountryCodes
 
-class ScrapetheStore(GetStoreInfo, GetAppContent):
+class ScrapetheStore(GetStoreInfo, GetAppContent, CountryCodes):
 	'''Class for scraping app information from the ios app store.
 	GetAppInfo to get app info from the store -> driver for app id's/lists to obtain
 	GetAppContent -> get app description, art etc, items present in the app store.
