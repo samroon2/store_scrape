@@ -21,18 +21,24 @@ class ScrapetheStore(GetStoreInfo, GetAppContent, CountryCodes):
 		super(ScrapetheStore, self).__init__(urlstart)
 		self.urlstart = urlstart
 		self.country = country
+		self.country_codes = CountryCodes()
 		self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
 
 	@staticmethod
 	def get_id(app_url):
+		''' Simple static method to return appid.
+
+		:param app_url: appstore url for a specific app.
+		:type app_url: str
+		'''
 		return app_url.split('id')[-1].split('?')[0]
 		
-	def get_pop_apps(self, **kwargs):
+	def get_popular_apps(self, **kwargs):
+		'''Method to obtain popular listed apps.
+		'''
 		top = kwargs.get('top', False)
 		self.get_popular_apps()
-		print(len(self.popular_titles))
 		for title in self.popular_titles[:top if top else len(self.popular_titles)]:
-			print(title)
 			appid = self.get_id(title)
 			# content = GetAppContent()
 			# reviews = UserReviews(appid, country=self.country)

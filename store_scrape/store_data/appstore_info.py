@@ -51,6 +51,9 @@ class GetStoreInfo:
 
     def get_page_list(self, alphurl):
         '''Method that scrapes the number of pages per letter and populates the pages list.
+
+        :param alphurl: url of alpha page listings.
+        :type alphaurl: str
         '''
         res = requests.get(alphurl, headers=self.headers)
         res.raise_for_status()

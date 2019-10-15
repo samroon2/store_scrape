@@ -30,12 +30,16 @@ class BasicTests(unittest.TestCase):
         assert 'description' in apd['results'][0].keys()
 
     def test_get_app_json(self):
+        ''' Test for getting app info json.
+        '''
         health_app = GetAppContent()
         apd = health_app.get_app_json(appid)
         assert len(apd) != 0
         assert 'results' in apd.keys()
 
     def test_get_images(self):
+        ''' Test for getting app images.
+        '''
         health_app = GetAppContent()
         apd = health_app.get_raw_app_json(appid)
         img = apd['results'][0]['screenshotUrls'][0]
@@ -44,6 +48,8 @@ class BasicTests(unittest.TestCase):
         shutil.rmtree("./img")
 
     def test_get_sel_json(self):
+        ''' Test for getting raw json for a give app.
+        '''
         health_app = GetAppContent()
         health_app.get_selected_apps_json(category, [app])
         with open(f"./{category}/{appid}.json") as f:
@@ -54,6 +60,8 @@ class BasicTests(unittest.TestCase):
         shutil.rmtree(f"./{category}")
 
     def test_get_img_json(self):
+        ''' Test for getting json and images for a give app.
+        '''
         health_app = GetAppContent()
         health_app.get_images_json([app])
         assert appid in os.listdir('.')
@@ -62,6 +70,8 @@ class BasicTests(unittest.TestCase):
         shutil.rmtree(f"./{appid}")
 
     def test_summary(self):
+        ''' Test for summarizing app description.
+        '''
         health_app = GetAppContent()
         apd = health_app.get_raw_app_json(appid)
         desc = apd['results'][0]['description']
