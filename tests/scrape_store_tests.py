@@ -20,7 +20,7 @@ class BasicTests(unittest.TestCase):
     def test_get_popular_apps(self):
         dats = ScrapetheStore("https://itunes.apple.com/us/genre/ios-weather/id6001?mt=8", country="Australia")
         print(dats.urlstart)
-        dats.get_pop_apps(top=5)
+        dats.get_top_apps(top=5)
 
 if __name__ == "__main__":
     unittest.main()
