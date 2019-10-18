@@ -10,8 +10,8 @@ class GetStoreInfo:
     :example urlstart: https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8
     '''
 
-    def __init__(self, urlstart):
-        self.urlstart = urlstart
+    def __init__(self, urlstart=False):
+        self.urlstart = urlstart if urlstart else 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
         self.popular_titles = []
         self.alpha = []

@@ -5,6 +5,7 @@ import pickle
 import pprint
 import requests
 
+
 project_base = Path(__file__).resolve().parent.parent
 store_data = project_base.joinpath('store_data')
 
@@ -25,8 +26,10 @@ class CountryCodes:
         '''Method for loading alt. codes.
         '''
         with open(pickle_file, 'rb') as f:
-            self.codes = pickle.load(f) 
+            self.codes = pickle.load(f)
 
     @property
     def countries(self):
+        '''Property to list countries and codes.
+        '''
         pprint.pprint(self.codes)

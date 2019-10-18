@@ -29,7 +29,7 @@ class BasicTests(unittest.TestCase):
         '''
         health = GetStoreInfo(url)
         health.get_genres()
-        assert len(health.genres) != 0        
+        assert len(health.genres) != 0
 
     def test_alpha_list(self):
         '''Test for determining the alpha list in the app store.

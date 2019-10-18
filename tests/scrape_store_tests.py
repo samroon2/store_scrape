@@ -6,6 +6,7 @@ import sys
 import unittest
 sys.path.append('../store_scrape/app_data')
 from get_app_data import *
+from unittest.mock import patch
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
@@ -18,7 +19,9 @@ class BasicTests(unittest.TestCase):
 ###############
 
     def test_get_popular_apps(self):
-        dats = ScrapetheStore("https://itunes.apple.com/us/genre/ios-weather/id6001?mt=8", country="Australia")
+        '''Test to get popular apps.
+        '''
+        dats = ScrapetheStore(urlstart=url, country="Australia")
         print(dats.urlstart)
         dats.get_top_apps(top=5)
 

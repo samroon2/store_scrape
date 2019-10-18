@@ -19,7 +19,8 @@ class ScrapetheStore(GetStoreInfo, GetAppContent, CountryCodes):
 
     def __init__(self, urlstart=False, country="Australia"):
         super(ScrapetheStore, self).__init__(urlstart)
-        self.urlstart = urlstart
+        self.get_genres()
+        self.urlstart = urlstart if urlstart else input(f'Please instanciate class with a starting URL {self.genres}')
         self.country = country
         self.country_codes = CountryCodes()
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
