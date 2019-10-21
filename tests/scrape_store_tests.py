@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
+genre = 'Health & Fitness'
 category = 'Health-Fitness'
 
 class BasicTests(unittest.TestCase):
@@ -22,12 +23,22 @@ class BasicTests(unittest.TestCase):
     def test_get_popular_apps(self):
         '''Test to get popular apps.
         '''
-        dats = ScrapetheStore(urlstart=url, country="United States")
+        dats = ScrapetheStore(genre=genre, country="United States")#urlstart=url
         print(dats.urlstart)
         dats.get_top_apps(top=5)
         downloads = [x for x in os.listdir('.') if '.py' not in x]
         assert len(downloads) > 0
         [shutil.rmtree(f"./{x}") for x in downloads]
+
+    def test_get_selected_app(self):
+        '''Test for retrieving data for a seleted app.
+        '''
+        dats = ScrapetheStore(genre=genre, country="United States")
+        print(dats.genres)
+
+    def test_get_all_apps(self):
+        dats = ScrapetheStore(genre=genre, country="United States")
+        dats.get_all_apps()
 
 if __name__ == "__main__":
     unittest.main()

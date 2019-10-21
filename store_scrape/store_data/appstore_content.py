@@ -45,57 +45,44 @@ class GetAppContent:
                 f.write(chunk)
         f.close()
 
-    def get_all_apps(self):
-        '''Works through the alpha list, gets pages/letter and retrieves app info.
-        '''
-        for link in set(self.alpha):
-            print(link)
-            self.getpagelist(link)
-            for lin in set(self.pages):
-                print(lin)
-                res = requests.get(lin, headers=self.headers)
-                res.raise_for_status()
-                noStarchSoup = bs.BeautifulSoup(res.text, "lxml")
+    def get_selected_apps_json(self, genre: str, selectedtitles: list):
+        '''Get data for a given genre/list of selcted apps.
 
-                for url in noStarchSoup.find_all('div', {"class":"grid3-column"}):
-                    [self.get_images_json(ul) for ul in url.find_all('a')]
-
-    def get_selected_apps_json(self, category: str, selectedtitles: list):
-        '''Get data for a given category/list of selcted apps.
-
-        :param category: App store category to be collected.
-        :type category: str
+        :param genre: App store genre to be collected.
+        :type genre: str
         :param selectedtitles: List of selected titles urls.
         :type selectedtitles: list
         '''
-        if not os.path.exists(f'./{category}'):
-            os.makedirs(f'./{category}')
+        if not os.path.exists(f'./{genre}'):
+            os.makedirs(f'./{genre}')
         for app in selectedtitles:
             appid = app.split('id')[-1].split('?')[0]
             appjson = self.get_app_json(appid)
-            with open(f'./{category}/{str(appid)}.json', "w") as outfile:
+            with open(f'./{genre}/{str(appid)}.json', "w") as outfile:
                 json.dump(appjson, outfile)
             time.sleep(1)
 
-    def get_images_json(self, selectedtitles: list):
+    def get_images_json(self, genre: str, selectedtitles: list):
         '''Method that retrieves images and json for apps.
 
+        :param genre: App store genre to be collected.
+        :type genre: str
         :param apps: List of app urls to get.
         :type apps: list
         '''
+        os.makedirs(genre) if genre not in os.listdir('.') else False
         for app in selectedtitles:
-            print(selectedtitles.index(app))
             appid = app.split('id')[-1].split('?')[0]
-            print(appid)
-            os.makedirs(f'./{str(appid)}')
-            os.makedirs(f'./{str(appid)}/screenshots')
-            os.makedirs(f'./{str(appid)}/ipadScreenshot')
-            os.makedirs(f'./{str(appid)}/artwork')
+            basepath = f'./{genre}/{str(appid)}'
+            os.makedirs(basepath)
+            os.makedirs(f'{basepath}/screenshots')
+            os.makedirs(f'{basepath}/ipadScreenshot')
+            os.makedirs(f'{basepath}/artwork')
             appjson = self.get_raw_app_json(appid)
-            [self.get_images(x, f'./{str(appid)}/screenshots', n) for n, x in enumerate(appjson['results'][0]['screenshotUrls'])]
-            [self.get_images(x, f'./{str(appid)}/ipadScreenshot', n) for n, x in enumerate(appjson['results'][0]['ipadScreenshotUrls'])]
+            [self.get_images(x, f'{basepath}/screenshots', n) for n, x in enumerate(appjson['results'][0]['screenshotUrls'])]
+            [self.get_images(x, f'{basepath}/ipadScreenshot', n) for n, x in enumerate(appjson['results'][0]['ipadScreenshotUrls'])]
             self.get_images(appjson['results'][0]['artworkUrl512'], f'./{str(appid)}/artwork', 0)
-            with open(f'./{str(appid)}/{str(appid)}.json', "w") as outfile:
+            with open(f'{basepath}/{str(appid)}.json', "w") as outfile:
                 json.dump(appjson, outfile)
             time.sleep(1)
 
@@ -117,7 +104,7 @@ class GetAppContent:
             #self.storejson(data)
             return data
         except Exception as e:
-            print(f"failed on: {e}")
+            print(f"failed on: {e}")   
 
     def text_summary(self, text: str):
         '''Method to provide a 2 sentence summary of the app description.

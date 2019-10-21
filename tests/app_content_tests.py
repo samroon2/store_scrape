@@ -63,11 +63,11 @@ class BasicTests(unittest.TestCase):
         ''' Test for getting json and images for a give app.
         '''
         health_app = GetAppContent()
-        health_app.get_images_json([app])
+        health_app.get_images_json(category, [app])
         assert appid in os.listdir('.')
         assert len(os.listdir(f"./{appid}")) != 0
         assert len(os.listdir(f"./{appid}/")) != 0
-        shutil.rmtree(f"./{appid}")
+        shutil.rmtree(f"./{appid}")       
 
     def test_summary(self):
         ''' Test for summarizing app description.
