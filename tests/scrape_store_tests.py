@@ -37,6 +37,9 @@ class BasicTests(unittest.TestCase):
         print(dats.genres)
 
     def test_get_all_apps(self):
+        '''Test for downloading all apps
+        ## TODO add top n apps for each letter.
+        '''
         dats = ScrapetheStore(genre=genre, country="United States")
         dats.get_all_apps()
 
