@@ -1,12 +1,13 @@
+import bs4 as bs
 import os, sys
 testdir = os.path.dirname(__file__)
 srcdir = "../"
 sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
 import requests
-import bs4 as bs
 from store_data.appstore_info import GetStoreInfo
 from store_data.appstore_content import GetAppContent
 from store_data.store_codes import CountryCodes
+
 
 class ScrapetheStore(GetStoreInfo, GetAppContent, CountryCodes):
     '''Class for scraping app information from the ios app store.
