@@ -37,11 +37,13 @@ class BasicTests(unittest.TestCase):
         print(dats.genres)
 
     def test_get_all_apps(self):
-        '''Test for downloading all apps
-        ## TODO add top n apps for each letter.
+        '''Test for downloading all apps.
         '''
         dats = ScrapetheStore(genre=genre, country="United States")
-        dats.get_all_apps()
+        dats.get_all_apps(n_letters=1, n_pages=1)
+        downloads = [x for x in os.listdir('.') if '.py' not in x]
+        assert len(downloads) > 0
+        [shutil.rmtree(f"./{x}") for x in downloads]
 
 if __name__ == "__main__":
     unittest.main()
